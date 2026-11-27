@@ -27,7 +27,7 @@ class Setup extends Model
     }
    public function productos()
     {
-        return $this->belongsToMany(Producto::class, 'setup_productos', 'id_setup', 'id_producto');
+        return $this->belongsToMany(Producto::class, 'setup_producto', 'id_setup', 'id_producto');
     }
     
     public function total(): int

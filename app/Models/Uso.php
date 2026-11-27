@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Uso extends Model
 {
-    protected $table = 'usos';
+    protected $table = 'uso';
     protected $primaryKey = 'id_uso';
     public $timestamps = false;
 
@@ -12,6 +12,6 @@ class Uso extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(Producto::class, 'producto_usos', 'id_uso', 'id_producto');
+        return $this->belongsToMany(Producto::class, 'producto_uso', 'id_uso', 'id_producto');
     }
 }

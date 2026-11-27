@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    protected $table = 'productos';
+    protected $table = 'producto';
     protected $primaryKey = 'id_producto';
     public $timestamps = false;
 
@@ -23,7 +23,7 @@ class Producto extends Model
 
     public function usos()
    {
-    return $this->belongsToMany(Uso::class, 'producto_usos', 'id_producto', 'id_uso');
+    return $this->belongsToMany(Uso::class, 'producto_uso', 'id_producto', 'id_uso');
    }
 
    public function agotado(): bool
