@@ -18,6 +18,26 @@ class TiendaController extends Controller
         return view('inicio', ['productos' => $productos]);
     }
 
+    public function show($id)
+    {
+        $producto = (object) [
+            'id_producto' => $id,
+            'nombre' => 'Ryzen 5 5600',
+            'categoria' => (object) ['nombre' => 'Procesador'],
+            'marca' => (object) ['nombre' => 'AMD'],
+            'precio' => 750000,
+            'stock' => 5,
+            'imagen' => 'Rizen5.jpg',
+            'descripcion' => 'El procesador AMD Ryzen 5 5600 es ideal para gaming y multitarea. Cuenta con 6 núcleos, 12 hilos y una velocidad de reloj de hasta 4.4 GHz. Excelente rendimiento y eficiencia energética para armar tu setup perfecto.',
+            'usos' => [
+                (object) ['nombre' => 'Gaming'],
+                (object) ['nombre' => 'Desarrollo']
+            ]
+        ];
+
+        return view('producto', ['producto' => $producto]);
+    }
+
     public function catalogo(Request $request, $uso = null)
     {
         // Atrapamos la categoría si viene en la URL

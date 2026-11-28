@@ -13,6 +13,11 @@
         </div>
 
         <div>
+          <label for="descripcion" style="display: block; margin-bottom: 5px;">Descripción del Producto</label>
+          <textarea name="descripcion" id="descripcion" rows="4" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white; resize: vertical;"></textarea>
+        </div>
+
+        <div>
         <div>
           <label for="marca" style="display: block; margin-bottom: 5px;">Marca</label>
           <input type="text" name="marca" id="marca" required placeholder="Ej: AMD, Asus, Intel..." style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white;">
@@ -23,7 +28,14 @@
             <option value="Memoria RAM">Memoria RAM</option>
             <option value="Tarjeta gráfica">Tarjeta gráfica</option>
             <option value="Almacenamiento">Almacenamiento</option>
-            <option value="Monitor">Monitor</option>
+            <option value="Computadores">Computadores</option>
+            <option value="Portátiles">Portátiles</option>
+            <option value="Monitores">Monitores</option>
+            <option value="Teclados">Teclados</option>
+            <option value="Mouse">Mouse</option>
+            <option value="Sillas">Sillas</option>
+            <option value="Escritorios">Escritorios</option>
+            <option value="Luces LED">Luces LED</option>
           </select>
         </div>
 

@@ -27,6 +27,7 @@ class AdminProductoController extends Controller
     {
             $request->validate([
                 'nombre' => 'required',
+                'descripcion' => 'required',
                 'categoria' => 'required',
                 'marca' => 'required', // NUEVO
                 'precio' => 'required|numeric',

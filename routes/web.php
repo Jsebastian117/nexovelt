@@ -12,3 +12,4 @@ Route::post('/admin/productos', [AdminProductoController::class, 'store'])->name
 Route::delete('/admin/productos/{id}', [AdminProductoController::class, 'destroy'])->name('admin.productos.destroy');
 Route::get('/admin/productos/{id}/editar', [AdminProductoController::class, 'edit'])->name('admin.productos.edit');
 Route::put('/admin/productos/{id}', [AdminProductoController::class, 'update'])->name('admin.productos.update');
+Route::get('/producto/{id}', [TiendaController::class, 'show'])->name('producto.show');

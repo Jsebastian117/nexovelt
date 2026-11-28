@@ -21,6 +21,7 @@
             @if($producto->stock == 0)
               <span class="etiqueta-agotado" style="background-color: red; color: white; padding: 5px; display: inline-block; margin-top: 10px; font-weight: bold; border-radius: 4px;">AGOTADO</span>
             @endif
+              <a href="{{ route('producto.show', $producto->id ?? 1) }}" class="boton-borde" style="margin-top: 10px; display: inline-block; text-align: center;">Ver producto</a>
           </article>
         @endforeach
       </div>
