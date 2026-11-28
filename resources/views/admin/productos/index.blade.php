@@ -26,14 +26,14 @@
         <tbody>
           @foreach($productos as $producto)
             <tr style="border-bottom: 1px solid #444;">
-              <td style="padding: 12px;">{{ $producto->id }}</td>
+              <td style="padding: 12px;">{{ $producto->id_producto }}</td>
               <td style="padding: 12px;">{{ $producto->nombre }}</td>
-              <td style="padding: 12px;">{{ $producto->categoria }}</td>
+              <td style="padding: 12px;">{{ $producto->categoria->nombre ?? 'Sin categoría' }}</td>
               <td style="padding: 12px;">$ {{ number_format($producto->precio, 0, ',', '.') }}</td>
               <td style="padding: 12px;">{{ $producto->stock }}</td>
               <td style="padding: 12px; text-align: center;">
-                <a href="{{ route('admin.productos.edit', $producto->id) }}" style="background: #f39c12; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 14px; margin-right: 5px;">Editar</a>
-                <form action="{{ route('admin.productos.destroy', $producto->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                <a href="{{ route('admin.productos.edit', $producto->id_producto) }}" style="background: #f39c12; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 14px; margin-right: 5px;">Editar</a>
+                <form action="{{ route('admin.productos.destroy', $producto->id_producto) }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Eliminar</button>

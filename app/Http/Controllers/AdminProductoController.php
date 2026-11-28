@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Producto; // <-- Importamos el modelo
 
 class AdminProductoController extends Controller
 {
     public function index()
     {
-        $productos = [
-            (object) ['id' => 1, 'nombre' => 'Ryzen 5', 'categoria' => 'Procesador', 'precio' => 750000, 'stock' => 5],
-            (object) ['id' => 2, 'nombre' => 'RAM DDR5 16 GB', 'categoria' => 'Memoria RAM', 'precio' => 280000, 'stock' => 0],
-            (object) ['id' => 3, 'nombre' => 'RTX 4060', 'categoria' => 'Tarjeta gráfica', 'precio' => 1450000, 'stock' => 2],
-            (object) ['id' => 4, 'nombre' => 'SSD 1 TB', 'categoria' => 'Almacenamiento', 'precio' => 320000, 'stock' => 10],
-        ];
-
+        // Traemos TODOS los productos reales de la base de datos
+        $productos = Producto::all();
         return view('admin.productos.index', ['productos' => $productos]);
     }
 
@@ -25,59 +21,93 @@ class AdminProductoController extends Controller
 
     public function store(Request $request)
     {
-            $request->validate([
-                'nombre' => 'required',
-                'descripcion' => 'required',
-                'categoria' => 'required',
-                'marca' => 'required', // NUEVO
-                'precio' => 'required|numeric',
-                'stock' => 'required|integer',
-                'usos' => 'required|array', // NUEVO
-                'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048'
+        $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'precio' => 'required|numeric',
+            'stock' => 'required|integer|min:0',
+            'id_categoria' => 'required',
+            'id_marca' => 'required',
+            'usos' => 'required|array',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
+        // 1. Guardar la imagen
+        $nombreImagen = null;
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            
             $imagen->move(public_path('img'), $nombreImagen);
-
-            // Aquí luego iría el código para guardar $nombreImagen en la base de datos.
         }
 
-        return redirect()->route('admin.productos')->with('success', 'Producto creado (simulado) e imagen subida.');
-    }
-    
-    public function destroy($id)
-    {
-        // Aquí iría el código para borrar de la base de datos (Producto::destroy($id))
-        
-        // Como no hay base de datos, solo redirigimos con un mensaje
-        return redirect()->route('admin.productos')->with('success', "El producto con ID $id ha sido eliminado (simulado).");
+        // 2. Guardar en la base de datos
+        $producto = Producto::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+            'stock' => $request->stock,
+            'imagen' => $nombreImagen,
+            'id_categoria' => $request->id_categoria,
+            'id_marca' => $request->id_marca,
+        ]);
+
+        // 3. Guardar los usos (¡La tabla intermedia!)
+        $producto->usos()->attach($request->usos);
+
+        return redirect()->route('admin.productos')->with('success', 'Producto creado exitosamente.');
     }
 
     public function edit($id)
     {
-        // Como no hay base de datos, simulamos buscar el producto por su ID
-        $productos = [
-            1 => (object) ['id' => 1, 'nombre' => 'Ryzen 5', 'categoria' => 'Procesador', 'precio' => 750000, 'stock' => 5],
-            2 => (object) ['id' => 2, 'nombre' => 'RAM DDR5 16 GB', 'categoria' => 'Memoria RAM', 'precio' => 280000, 'stock' => 0],
-            3 => (object) ['id' => 3, 'nombre' => 'RTX 4060', 'categoria' => 'Tarjeta gráfica', 'precio' => 1450000, 'stock' => 2],
-            4 => (object) ['id' => 4, 'nombre' => 'SSD 1 TB', 'categoria' => 'Almacenamiento', 'precio' => 320000, 'stock' => 10],
-        ];
-
-        // Si el producto no existe, tiramos error 404
-        if (!isset($productos[$id])) {
-            abort(404);
-        }
-
-        return view('admin.productos.edit', ['producto' => $productos[$id]]);
+        // Buscamos el producto real en la base de datos
+        $producto = Producto::findOrFail($id);
+        return view('admin.productos.edit', ['producto' => $producto]);
     }
 
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        // Aquí iría la lógica real
-        
-        return redirect()->route('admin.productos')->with('success', "Producto actualizado correctamente (simulado).");
+        $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'precio' => 'required|numeric',
+            'stock' => 'required|integer|min:0',
+            'id_categoria' => 'required',
+            'id_marca' => 'required',
+            'usos' => 'required|array',
+        ]);
+
+        // Buscamos el producto real en la base de datos
+        $producto = Producto::findOrFail($id);
+
+        // Actualizamos los datos
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->id_categoria = $request->id_categoria;
+        $producto->id_marca = $request->id_marca;
+
+        // Si subieron una nueva imagen, la reemplazamos
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('img'), $nombreImagen);
+            $producto->imagen = $nombreImagen;
+        }
+
+        $producto->save();
+
+        // Sincronizar los usos (borra los viejos y pone los nuevos)
+        $producto->usos()->sync($request->usos);
+
+        return redirect()->route('admin.productos')->with('success', 'Producto actualizado correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+
+        return redirect()->route('admin.productos')->with('success', 'Producto eliminado correctamente.');
     }
 }

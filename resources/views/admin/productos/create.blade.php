@@ -18,24 +18,33 @@
         </div>
 
         <div>
-        <div>
-          <label for="marca" style="display: block; margin-bottom: 5px;">Marca</label>
-          <input type="text" name="marca" id="marca" required placeholder="Ej: AMD, Asus, Intel..." style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white;">
+          <label for="id_categoria" style="display: block; margin-bottom: 5px;">Categoría</label>
+          <select name="id_categoria" id="id_categoria" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white;">
+            <option value="1">Computadores</option>
+            <option value="2">Portátiles</option>
+            <option value="3">Monitores</option>
+            <option value="4">Teclados</option>
+            <option value="5">Mouse</option>
+            <option value="6">Sillas</option>
+            <option value="7">Escritorios</option>
+            <option value="8">Luces LED</option>
+            <option value="9">Memoria RAM</option>
+            <option value="10">Almacenamiento</option>
+            <option value="11">Tarjetas gráficas</option>
+          </select>
         </div>
-          <label for="categoria" style="display: block; margin-bottom: 5px;">Categoría</label>
-          <select name="categoria" id="categoria" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white;">
-            <option value="Procesador">Procesador</option>
-            <option value="Memoria RAM">Memoria RAM</option>
-            <option value="Tarjeta gráfica">Tarjeta gráfica</option>
-            <option value="Almacenamiento">Almacenamiento</option>
-            <option value="Computadores">Computadores</option>
-            <option value="Portátiles">Portátiles</option>
-            <option value="Monitores">Monitores</option>
-            <option value="Teclados">Teclados</option>
-            <option value="Mouse">Mouse</option>
-            <option value="Sillas">Sillas</option>
-            <option value="Escritorios">Escritorios</option>
-            <option value="Luces LED">Luces LED</option>
+
+        <div>
+          <label for="id_marca" style="display: block; margin-bottom: 5px;">Marca</label>
+          <select name="id_marca" id="id_marca" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #555; background: #333; color: white;">
+            <option value="1">Asus</option>
+            <option value="2">Lenovo</option>
+            <option value="3">HP</option>
+            <option value="4">Logitech</option>
+            <option value="5">Redragon</option>
+            <option value="6">LG</option>
+            <option value="7">Kingston</option>
+            <option value="8">Genérica</option>
           </select>
         </div>
 
@@ -46,12 +55,12 @@
 
         <div>
         <div>
-          <label style="display: block; margin-bottom: 5px;">Usos recomendados (puedes elegir varios)</label>
+          <label style="display: block; margin-bottom: 5px;">Usos recomendados</label>
           <div style="display: flex; gap: 15px; flex-wrap: wrap; background: #333; padding: 10px; border-radius: 4px; border: 1px solid #555;">
-            <label><input type="checkbox" name="usos[]" value="Gaming"> Gaming</label>
-            <label><input type="checkbox" name="usos[]" value="Desarrollo"> Desarrollo</label>
-            <label><input type="checkbox" name="usos[]" value="Oficina"> Oficina</label>
-            <label><input type="checkbox" name="usos[]" value="Uso normal"> Uso normal</label>
+            <label><input type="checkbox" name="usos[]" value="1"> Gaming</label>
+            <label><input type="checkbox" name="usos[]" value="2"> Desarrollo</label>
+            <label><input type="checkbox" name="usos[]" value="3"> Uso normal</label>
+            <label><input type="checkbox" name="usos[]" value="4"> Oficina</label>
           </div>
         </div>
           <label for="stock" style="display: block; margin-bottom: 5px;">Stock</label>
