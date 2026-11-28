@@ -55,9 +55,16 @@ class CatalogoSeeder extends Seeder
             ['Escritorio de oficina 120 cm', 'Escritorio de 120 cm con espacio para el equipo', 380000, 10, 7, 8, [2, 3, 4]],
             ['Tira de luces LED RGB 5 m', 'Tira de luces de colores con control remoto', 60000, 30, 8, 8, [1, 2, 3]],
             ['Lámpara LED de escritorio', 'Lámpara con luz regulable para trabajar', 85000, 15, 8, 8, [2, 4]],
-            ['Memoria RAM DDR5 16 GB', 'Módulo de memoria RAM de 16 GB', 280000, 20, 9, 7, [1, 2]],
+            ['Memoria RAM DDR5 16 GB', 'Módulo de memoria RAM de 16 GB', 280000, 0, 9, 7, [1, 2]],
             ['SSD 1 TB', 'Unidad de estado sólido de 1 TB', 320000, 20, 10, 7, [1, 2, 3, 4]],
-            ['Tarjeta gráfica 8 GB', 'Tarjeta gráfica con 8 GB de memoria', 1450000, 4, 11, 1, [1]],
+            ['Tarjeta gráfica RTX 4060 8 GB', 'Tarjeta gráfica con 8 GB de memoria', 1450000, 4, 11, 1, [1]],
+        ];
+
+                // Imágenes disponibles en public/img (por nombre de producto)
+        $imagenes = [
+            'Memoria RAM DDR5 16 GB' => 'RAMDDR516GB.jpg',
+            'SSD 1 TB' => 'SSD1TB.jpg',
+            'Tarjeta gráfica RTX 4060 8 GB' => 'rtx4060.jpg',
         ];
 
         foreach ($productos as [$nombre, $descripcion, $precio, $stock, $idCategoria, $idMarca, $usos]) {
@@ -66,6 +73,7 @@ class CatalogoSeeder extends Seeder
                 'descripcion' => $descripcion,
                 'precio' => $precio,
                 'stock' => $stock,
+                'imagen' => $imagenes[$nombre] ?? null,
                 'id_categoria' => $idCategoria,
                 'id_marca' => $idMarca,
             ]);
